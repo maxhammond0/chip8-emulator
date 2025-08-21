@@ -1,0 +1,17 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "src/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/max/Documents/fun/chip8-emulator",
+    "file": "/home/max/Documents/fun/chip8-emulator/src/main.c",
+    "output": "/home/max/Documents/fun/chip8-emulator/src/main.o"
+  }
+]
