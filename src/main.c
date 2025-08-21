@@ -73,7 +73,32 @@ void emulate_chip8(Chip8 *state) {
             break;
         case 0x8000: // LD Vx, byte OR 
             // case OR, XOR, etc...
-            unimplemented_instruction(opcode);
+            switch (opcode & 0x000F) {
+                case 0x0001: // LD
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0002:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0003:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0004:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0005:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0006:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0007:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x000E:
+                    unimplemented_instruction(opcode);
+                    break;
+            }
             break;
         case 0x9000: // SNE, Vx, Vy
             unimplemented_instruction(opcode);
@@ -90,11 +115,46 @@ void emulate_chip8(Chip8 *state) {
         case 0xD000: // DRW Vx, Vy, nibble
             unimplemented_instruction(opcode);
             break;
-        case 0xE000: // idk
-            unimplemented_instruction(opcode);
+        case 0xE000:
+            switch (opcode & 0x00FF) {
+                case 0x009E:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x00A1:
+                    unimplemented_instruction(opcode);
+                    break;
+            }
             break;
-        case 0xF000: // idk
-            unimplemented_instruction(opcode);
+        case 0xF000:
+            switch (opcode & 0x00FF) {
+                case 0x0007:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x000A:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0015:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0018:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x001E:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0029:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0033:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0055:
+                    unimplemented_instruction(opcode);
+                    break;
+                case 0x0065:
+                    unimplemented_instruction(opcode);
+                    break;
+            }
             break;
     }
 }
