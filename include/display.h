@@ -12,6 +12,7 @@ void init_window(SDL_Window **window,
         SDL_Renderer **renderer,
         SDL_Texture **sdl_texture);
 void buffer_display(Chip8 *chip8, uint32_t *buffer);
+void clear_display(Chip8 *chip8);
 void draw_display(uint32_t *buffer,
         SDL_Renderer *renderer,
         SDL_Texture *texture);

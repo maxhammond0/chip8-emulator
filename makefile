@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude $(shell pkg-config --cflags sdl2) -Wc++23-extensions -g -g
+CFLAGS = -Wall -Wextra -Iinclude $(shell pkg-config --cflags sdl2) -Wc23-extensions
 LDFLAGS = $(shell pkg-config --libs sdl2)
 
 SRC = $(wildcard src/*.c)

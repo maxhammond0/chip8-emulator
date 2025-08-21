@@ -20,7 +20,7 @@ uint16_t get_opcode(Chip8 *state) {
 }
 
 void unimplemented_instruction(uint16_t opcode){
-    printf("Unimpleted Instruction: 0x%x\n", opcode);
+    printf("Unimpleted Instruction: 0x%08x\n", opcode);
 }
 
 void emulate_chip8(Chip8 *state) {
@@ -30,36 +30,46 @@ void emulate_chip8(Chip8 *state) {
 
     state->pc += 2;
 
-    switch (opcode) {
-        case 0x00E0: // CLS
-            unimplemented_instruction(opcode);
-            break;
-        case 0x00EE: // RET
-            unimplemented_instruction(opcode);
-            break;
-        case 0x0000: // SYS addr
-            unimplemented_instruction(opcode);
-            break;
+    switch (opcode & 0xF000) { // MSB
+        case 0x0000:
+            switch (opcode & 0x00FF) {
+                case 0x00E0: // CLS
+                    clear_display(state);
+                    break;
+                case 0x00EE: // RET
+                    state->pc = state->stack[--state->sp];
+                    break;
+            }
         case 0x1000: // JP addr
-            unimplemented_instruction(opcode);
+            state->pc = opcode & 0x0FFF;
             break;
         case 0x2000: // CALL addr
-            unimplemented_instruction(opcode);
+            state->stack[state->sp++] = state->pc;
+            state->pc = opcode & 0x0FFF;
             break;
         case 0x3000: // SE Vx, byte
-            unimplemented_instruction(opcode);
+            if (state->registers[(opcode & 0x0F00) << 8] ==
+                    (opcode & 0x00FF)) {
+                state->pc += 2;
+            }
             break;
         case 0x4000: // SNE Vx, byte
-            unimplemented_instruction(opcode);
+            if (state->registers[(opcode & 0x0F00) >> 8]!=
+                    (opcode & 0x00FF)) {
+                state->pc += 2;
+            }
             break;
         case 0x5000: // SE Vx, Vy
-            unimplemented_instruction(opcode);
+            if ((state->registers[(opcode & 0x0F00) >> 8]) ==
+                    (state->registers[(opcode & 0x00F0) >> 4])) {
+                state->pc += 2;
+            }
             break;
         case 0x6000: // LD Vx, byte,
-            unimplemented_instruction(opcode);
+            state->registers[(opcode & 0x0F00) >> 8] = opcode & 0x00FF;
             break;
         case 0x7000: // ADD Vx, byte
-            unimplemented_instruction(opcode);
+            state->registers[(opcode & 0x0F00) >> 8] += opcode * 0x00FF;
             break;
         case 0x8000: // LD Vx, byte OR 
             // case OR, XOR, etc...
@@ -155,13 +165,14 @@ int main(int argc, char **argv) {
 
     int running = 1;
     while (running) {
-        // emulate_chip8(chip8);
+        emulate_chip8(chip8);
 
         // update_timers(chip8);
 
         handle_input(chip8, &running);
 
         buffer_display(chip8, pixel_buffer);
+
         draw_display(pixel_buffer, chip8_renderer, chip8_texture);
 
         usleep(15000); // sleep for 15 ms

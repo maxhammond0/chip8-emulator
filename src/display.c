@@ -37,6 +37,14 @@ void init_window(SDL_Window **window,
     SDL_RenderPresent(*renderer);
 }
 
+void clear_display(Chip8 *chip8) {
+    for (int y = 0; y < DISPLAY_HEIGHT; y++) {
+        for (int x = 0; x < DISPLAY_WIDTH; x++) {
+            chip8->display[y][x] = 0;
+        }
+    }
+}
+
 void buffer_display(Chip8 *chip8, uint32_t *buffer) {
     for (int y = 0; y < DISPLAY_HEIGHT; y++) {
         for (int x = 0; x < DISPLAY_WIDTH; x++) {
